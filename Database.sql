@@ -1,0 +1,1 @@
+create table users(userId int primary key,userName varchar(100) unique,firstName varchar(100),lastName varchar(100),emailId varchar(100) unique,password varchar(100),creationDateTime TIMESTAMP); 
