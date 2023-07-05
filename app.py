@@ -1,4 +1,4 @@
-from flask import Flask, Response
+from flask import Flask, Response,request,jsonify
 from datetime import datetime
 import pyodbc
 import json
@@ -68,5 +68,42 @@ def user():
     cursor.close()    
     for row in rows:
         return(row.userName+row.firstName)
+    
+#user registration
+@app.route('/registerUser',  methods=['POST'])
+def registerUser():
+    user_data = request.get_json()
+    # Create a cursor object to execute SQL queries
+    cursor = cnxn.cursor()
+
+    query = "INSERT INTO users VALUES (next VALUE for userSequence, ?, ?, ?, ?, ?,current_timestamp)"
+    values = (user_data['emailId'], user_data['firstName'],user_data['lastName'],user_data['emailId'],user_data['password'])
+
+    try:
+        # Execute the INSERT statement
+        cursor.execute(query, values)
+        cnxn.commit()
+
+        # Close the cursor 
+        cursor.close()
+        
+
+        # Return a success response
+        response = {'message': 'User created successfully'}
+        return jsonify(response), 201
+
+    except Exception as e:
+        # Handle any errors that occur during the database operation
+        # Rollback the transaction
+        cnxn.rollback()
+
+        # Close the cursor and database connection
+        cursor.close()
+        
+
+        # Return an error response
+        response = {'error': str(e)}
+        return jsonify(response), 500
+    
 if __name__ == '__main__':
     app.run()
