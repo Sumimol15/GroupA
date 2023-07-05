@@ -1,4 +1,4 @@
-from flask import Flask, Response,request,jsonify
+from flask import Flask, Response, request,jsonify
 from datetime import datetime
 import pyodbc
 import json
@@ -48,28 +48,6 @@ def message():
     # Close the cursor and database connection
     cursor.close()    
     return Response(json.dumps(row_dicts), mimetype='application/json')
-@app.route('/users')
-def user():
-    # Create a cursor object to execute SQL queries
-    cursor = cnxn.cursor()
-
-    # Execute the SELECT statement
-    query = "SELECT * FROM users"
-    cursor.execute(query)
-
-    # Fetch all rows from the result set
-    rows = cursor.fetchall()
-
-    # Print the rows
-    for row in rows:
-        print(row)
-
-    # Close the cursor and database connection
-    cursor.close()    
-    for row in rows:
-        return(row.userName+row.firstName)
-    
-#user registration
 @app.route('/registerUser',  methods=['POST'])
 def registerUser():
     user_data = request.get_json()
@@ -104,6 +82,48 @@ def registerUser():
         # Return an error response
         response = {'error': str(e)}
         return jsonify(response), 500
-    
+#Login Logout
+@app.route('/login',  methods=['POST'])
+def login():
+    user_data = request.get_json()
+    # Create a cursor object to execute SQL queries
+    cursor = cnxn.cursor()
+
+    query = "SELECT password FROM users WHERE userName=?"
+    values = (user_data['userName'])
+
+    try:
+        # Execute the INSERT statement
+        cursor.execute(query, values)
+        row = cursor.fetchone()
+        if row:
+            print(row[0])
+            if(row[0] == user_data['password']):
+                response = {'message': 'Successfully Logged in','status':0}
+            else:
+                response = {'message': 'Login failed','status':1}
+        else:
+            response = {'message': 'User doesnot exist','status':2}
+        # Close the cursor 
+        cursor.close()
+        
+
+        # Return a success response
+        
+        return jsonify(response), 201
+
+    except Exception as e:
+        # Handle any errors that occur during the database operation
+        # Rollback the transaction
+        cnxn.rollback()
+
+        # Close the cursor and database connection
+        cursor.close()
+        cnxn.close()
+
+        # Return an error response
+        response = {'error': str(e)}
+        return jsonify(response), 500
+
 if __name__ == '__main__':
     app.run()
