@@ -68,7 +68,7 @@ def registerUser():
 
         # Return a success response
         response = {'message': 'User created successfully'}
-        return jsonify(response), 200
+        return jsonify(response), 201
 
     except Exception as e:
         # Handle any errors that occur during the database operation
@@ -110,7 +110,7 @@ def login():
 
         # Return a success response
         
-        return jsonify(response), 200
+        return jsonify(response), 201
 
     except Exception as e:
         # Handle any errors that occur during the database operation
@@ -120,47 +120,6 @@ def login():
         # Close the cursor and database connection
         cursor.close()
         cnxn.close()
-
-        # Return an error response
-        response = {'error': str(e)}
-        return jsonify(response), 500
-
-
-#API FOR MESSAGE CREATION
-@app.route('/createMessage',  methods=['POST'])
-def createMessage():
-    user_data = request.get_json()
-    # Create a cursor object to execute SQL queries
-    cursor = cnxn.cursor()
-
-    query = "INSERT INTO messages VALUES (next VALUE for messageSequence, ?, ?, ?, 'false',current_timestamp)"
-    values = (user_data['sentBy'], user_data['recipientId'],user_data['message'])
-
-    try:
-        # Execute the INSERT statement
-        cursor.execute(query, values)
-        cnxn.commit()
-        query = "select top 1 messageId from messages where sentBy=? and recipientId=? and messageContent=? order by messageId desc"
-        values = (user_data['sentBy'], user_data['recipientId'],user_data['message'])
-        cursor.execute(query, values)
-        row = cursor.fetchone()
-        # Close the cursor 
-        cursor.close()
-        
-
-        # Return a success response
-        if(row):
-            response = {'message': 'Message created successfully','status':0,'messageId':row[0]}
-        return jsonify(response), 200
-
-    except Exception as e:
-        # Handle any errors that occur during the database operation
-        # Rollback the transaction
-        cnxn.rollback()
-
-        # Close the cursor and database connection
-        cursor.close()
-        
 
         # Return an error response
         response = {'error': str(e)}
