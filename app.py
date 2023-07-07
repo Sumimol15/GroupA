@@ -11,9 +11,9 @@ app = Flask(__name__)
 # Connect to the database
 cnxn = pyodbc.connect(
     'Driver={SQL Server};'
-    'Server=jerindatabase.database.windows.net;'
-    'Database=sqldatabase;'
-    'UID=jerin;'
+    'Server=jerin.westeurope.cloudapp.azure.com;'
+    'Database=ca1;'
+    'UID=sa;'
     'PWD=RandomPassword123;'
 )
 
@@ -133,7 +133,7 @@ def createMessage():
     # Create a cursor object to execute SQL queries
     cursor = cnxn.cursor()
 
-    query = "INSERT INTO messages VALUES (next VALUE for messageSequence, ?, ?, ?, 'false',current_timestamp)"
+    query = "INSERT INTO messages VALUES (next VALUE for messageSequence, ?, ?, ?, CURRENT_TIMESTAMP,'false')"
     values = (user_data['sentBy'], user_data['recipientId'],user_data['message'])
 
     try:
@@ -160,7 +160,7 @@ def createMessage():
 
         # Close the cursor and database connection
         cursor.close()
-        
+        print(str(e))
 
         # Return an error response
         response = {'error': str(e)}
