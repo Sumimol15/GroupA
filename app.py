@@ -157,6 +157,35 @@ def createMessage():
         # Return an error response
         response = {'error': str(e)}
         return jsonify(response), 500
+@app.route('/getMessages',methods=['POST'])
+def message():
+    user_data = request.get_json()
+    # Create a cursor object to execute SQL queries
+    cursor = cnxn.cursor()
+    if(user_data['order'].lower()=='desc'):order='desc'
+    else:order='asc'
+    # Execute the SELECT statement
+    query = "  select top "+str(user_data['noOfMessages'])+" * from messages where sentBy=? and recipientId=? order by messageId "+order
+    values = (user_data['sentBy'], user_data['recipientId'])
+    cursor.execute(query, values)
+
+    # Fetch all rows from the result set
+    rows = cursor.fetchall()
+
+    column_names = [column[0] for column in cursor.description]
+    row_dicts = []
+    for row in rows:
+        print(row)
+        row_dict = dict(zip(column_names, row))
+        # Convert datetime objects to strings
+        for key, value in row_dict.items():
+            if isinstance(value, datetime):
+                row_dict[key] = value.strftime('%Y-%m-%dT%H:%M:%S')
+        row_dicts.append(row_dict)
+
+    # Close the cursor and database connection
+    cursor.close()    
+    return Response(json.dumps(row_dicts), mimetype='application/json')
 
 if __name__ == '__main__':
     app.run()
