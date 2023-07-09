@@ -22,36 +22,26 @@ cnxn = pyodbc.connect(
 def home():
     return 'Hello, World!'
 
-@app.route('/messages')
-def message():
-    # Create a cursor object to execute SQL queries
+
+def checkForUserExist(emailId):
     cursor = cnxn.cursor()
-
-    # Execute the SELECT statement
-    query = "SELECT * FROM messages"
-    cursor.execute(query)
-
-    # Fetch all rows from the result set
-    rows = cursor.fetchall()
-
-    column_names = [column[0] for column in cursor.description]
-    row_dicts = []
-    for row in rows:
-        print(row)
-        row_dict = dict(zip(column_names, row))
-        # Convert datetime objects to strings
-        for key, value in row_dict.items():
-            if isinstance(value, datetime):
-                row_dict[key] = value.strftime('%Y-%m-%dT%H:%M:%S')
-        row_dicts.append(row_dict)
-
-    # Close the cursor and database connection
-    cursor.close()    
-    return Response(json.dumps(row_dicts), mimetype='application/json')
+    
+    query = "SELECT count(*) FROM users where emailId=?"
+    values=(emailId)
+    cursor.execute(query,values)
+    rows = cursor.fetchone()
+    cursor.close()  
+    
+    if(rows[0]==0):return False
+    else: return True
 @app.route('/registerUser',  methods=['POST'])
 def registerUser():
     user_data = request.get_json()
     # Create a cursor object to execute SQL queries
+    print('chekcOne')
+    if(checkForUserExist(user_data['emailId'])):
+        response = {'message': 'User already exists'}
+        return jsonify(response), 500
     cursor = cnxn.cursor()
 
     query = "INSERT INTO users VALUES (next VALUE for userSequence, ?, ?, ?, ?, ?,current_timestamp)"
@@ -61,14 +51,16 @@ def registerUser():
         # Execute the INSERT statement
         cursor.execute(query, values)
         cnxn.commit()
-
-        # Close the cursor 
+        query = "select top 1 userId from users where userName=?"
+        values = (user_data['emailId'])
+        cursor.execute(query, values)
+        row = cursor.fetchone()
         cursor.close()
         
 
         # Return a success response
-        response = {'message': 'User created successfully'}
-        return jsonify(response), 200
+        response = {'message': 'User created successfully','userId':row[0],'status':0}
+        return jsonify(response), 201
 
     except Exception as e:
         # Handle any errors that occur during the database operation
