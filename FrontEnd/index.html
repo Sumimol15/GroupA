@@ -1,0 +1,85 @@
+<html>
+    <head>
+        <title>Messaging Application</title>
+        <link rel="styleSheet" href="styleSheet.css">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;600;700&display=swap" rel="stylesheet">
+
+    </head>
+    <body>
+        <section class="header">
+            <p class="appName">Connect Me</p>
+            <nav>
+            <div class="menu" id="menu">
+                
+                 <a href="">Sign In</a>
+                      <a href="">Register</a>
+                      <a href="">Home</a>
+                
+               
+             </div>
+            </nav> 
+        </section>
+        
+    <section>
+        <div class="container">
+          <div class="column1">
+
+          </div>
+          <div class="button-container">
+            <button onclick="showLoginForm('loginform', 'division')">Sign In</button>
+            <button onclick="showForm('registrationForm', 'division')">Register</button>
+         
+          </div>
+          <div class="column">
+                
+                <form id="registrationForm" class="hidden">
+                  <label for="name">First Name:</label>
+                  <input type="text" id="fname" name="fname"><br><br>
+                  <label for="name">Last Name:</label>
+                  <input type="text" id="lname" name="lname"><br><br>
+                  <label for="name">Email</label>
+                  <input type="text" id="email" name="email"><br><br>
+                  <label for="email">User Name</label>
+                  <input type="email" id="username" name="username"><br><br>
+                  <label for="email">Password</label>
+                  <input type="email" id="password" name="password"><br><br>
+                  
+                  <input type="submit" value="Submit">
+                </form>
+            
+             
+                
+                <form id="loginform" class="hidden">
+                    <label for="username">Name</label>
+                    <input type="text" id="username" name="username"><br><br>
+                    <label for="password">User name</label>
+                    <input type="password" id="password" name="password"><br><br>
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+          </div>
+        
+            
+       
+        
+    </section>
+
+          
+    <script>
+        function showForm() {
+          var signInForm = document.getElementById("loginform");
+      var registerForm = document.getElementById("registrationForm");
+      signInForm.classList.add("hidden");
+      registerForm.classList.remove("hidden");
+   }
+        function showLoginForm() {
+          var signInForm = document.getElementById("loginform");
+      var registerForm = document.getElementById("registrationForm");
+      signInForm.classList.remove("hidden");
+      registerForm.classList.add("hidden");
+        }
+      </script>         
+                
+    </body>
+</html>

@@ -1,0 +1,88 @@
+*{
+    margin :0;
+    padding :0;
+    font-family: 'Poppins', sans-serif;
+    scroll-behavior: smooth;
+   
+}
+.header{
+    margin-top: 0px;
+    padding-top: 0px;
+    min-height: 15vh;
+      width: 100%;
+      background-position: center;
+      background-size: cover;
+      position: relative;
+      
+  }
+  .appName {
+    text-decoration: none;
+  color: aliceblue;
+    padding: 20px; /* sets equal padding on all sides */
+    /* or */
+    padding-top: 20px; /* sets padding on the top side */
+    padding-right: 20px; /* sets padding on the right side */
+    padding-bottom: 10px; /* sets padding on the bottom side */
+    padding-left: 20px; /* sets padding on the left side */
+  }
+
+
+ 
+/* Navigation links styles */
+.menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.menu a {
+  text-decoration: none;
+  color: aliceblue;
+}
+.menu {
+  margin-top: 10px;
+  padding-top: 20px;
+}
+.header {
+  width: 100%;
+  height: 0%;
+  background-color: #3b242e;
+}
+.container {
+  display: flex;
+  height: 90%;
+  width: 100%;
+ 
+}
+
+.column {
+  background-color: rgb(218, 212, 205);
+  flex-basis: 50%;
+  padding: 10px;
+  box-sizing: border-box;
+  height: 80%;
+}
+.column1 {
+  background-color: rgb(90, 60, 26);
+ 
+  flex-basis: 50%;
+  padding: 10px;
+  box-sizing: border-box;
+  height: 80%;
+}
+.hidden {
+  display: none;
+}
+.button-container {
+  text-align: center;
+  background-color: rgb(218, 212, 205);
+  height: 80%;
+}
+
+.button-container button {
+  display: inline-block;
+  margin: 5px;
+  
+}
+
+
+
