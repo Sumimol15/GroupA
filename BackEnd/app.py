@@ -1,10 +1,10 @@
-from flask import Flask, Response, request,jsonify
+from flask import Flask, Response, request,jsonify,render_template
 from datetime import datetime
 import pyodbc
 import json
 
 
-app = Flask(__name__)
+app = Flask(__name__,template_folder='template')
 
 
 #
@@ -13,7 +13,16 @@ cnxn = pyodbc.connect(
     'Driver={SQL Server};'
     'Server=jerin.westeurope.cloudapp.azure.com;'
     'Database=ca1;'
-    'UID=sa;'GET ALL USERS
+    'UID=sa;'
+    'PWD=RandomPassword123;'
+)
+
+
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+#GET ALL USERS
 @app.route('/getAllUsers')
 def getAllUsers():    
     cursor = cnxn.cursor()    
@@ -64,14 +73,6 @@ def getMyFriends():
         row_dicts.append(row_dict)
     cursor.close()    
     return Response(json.dumps(row_dicts), mimetype='application/json')
-    'PWD=RandomPassword123;'
-)
-
-
-@app.route('/')
-def home():
-    return 'Hello, World!'
-
 
 def checkForUserExist(emailId):
     cursor = cnxn.cursor()
@@ -124,58 +125,6 @@ def registerUser():
         # Return an error response
         response = {'error': str(e)}
         return jsonify(response), 500
-#GET ALL USERS
-@app.route('/getAllUsers')
-def getAllUsers():    
-    cursor = cnxn.cursor()    
-    query = "  select userId,userName,firstName,lastName from users"    
-    cursor.execute(query)
-    rows = cursor.fetchall()
-    column_names = [column[0] for column in cursor.description]
-    row_dicts = []
-    for row in rows:
-        print(row)
-        row_dict = dict(zip(column_names, row))        
-        row_dicts.append(row_dict)
-
-    # Close the cursor and database connection
-    cursor.close()    
-    return Response(json.dumps(row_dicts), mimetype='application/json')
-
-#GET MY FRIENDS
-@app.route('/getMyFriends', methods=['POST'])
-def getMyFriends():  
-    user_data = request.get_json()  
-    cursor = cnxn.cursor()    
-    query = "select distinct recipientId from messages where sentBy=?" 
-    values = (user_data['userId'])   
-    cursor.execute(query,values)
-    rows = cursor.fetchall()
-    friends=set()
-    for row in rows:
-       friends.add(row.recipientId)
-    query = "select distinct sentBy from messages where recipientId=?" 
-    values = (user_data['userId'])   
-    cursor.execute(query,values)
-    rows = cursor.fetchall()
-    for row in rows:
-       friends.add(row.sentBy)
-    friendsString=""
-    for element in friends:
-        friendsString+=str(element)+','
-    query = "  select userId,userName,firstName,lastName from users where userId in ("+friendsString[:len(friendsString)-1]+")" 
-    print('SELECT QUERY FOR FINDING FRIENDS:'+query)   
-    cursor.execute(query)
-    rows = cursor.fetchall()
-    column_names = [column[0] for column in cursor.description]
-    row_dicts = []
-    for row in rows:
-        print(row)
-        row_dict = dict(zip(column_names, row))        
-        row_dicts.append(row_dict)
-    cursor.close()    
-    return Response(json.dumps(row_dicts), mimetype='application/json')
-    
 #Login Logout
 @app.route('/login',  methods=['POST'])
 def login():
