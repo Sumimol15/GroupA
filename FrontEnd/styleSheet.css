@@ -84,5 +84,45 @@
   
 }
 
+.form-label {
+  display: inline-block;
+  width: 120px;
+  text-align: right;
+  margin-right: 10px;
+}
 
+.form-input {
+  display: inline-block;
+  width: 200px;
+}
 
+.form-button {
+  display: block;
+  width: 120px;
+  margin-top: 10px;
+}
+#msgcontacts {
+  background-color: rgb(37, 36, 35);
+ 
+  flex-basis: 50%;
+  padding: 10px;
+  box-sizing: border-box;
+  height: 10%;
+  color: rgb(245, 240, 240); 
+ 
+}
+.divContainer{
+  display: flex;
+  height: 90%;
+  width: 100%;
+}
+#contacts{
+  background-color: rgb(61, 83, 6);
+  height: 90%;
+  width: 50%;
+}
+#chat{
+  background-color: rgb(11, 107, 129);
+  height: 90%;
+  width: 50%;
+}

@@ -27,35 +27,35 @@
 
           </div>
           <div class="button-container">
-            <button onclick="showLoginForm('loginform', 'division')">Sign In</button>
-            <button onclick="showForm('registrationForm', 'division')">Register</button>
+            <button onclick="showLoginForm('loginform', 'division')" class="form-button">Sign In</button>
+            <button onclick="showForm('registrationForm', 'division')" class="form-button">Register</button>
          
           </div>
           <div class="column">
                 
                 <form id="registrationForm" class="hidden">
-                  <label for="name">First Name:</label>
-                  <input type="text" id="fname" name="fname"><br><br>
-                  <label for="name">Last Name:</label>
-                  <input type="text" id="lname" name="lname"><br><br>
-                  <label for="name">Email</label>
-                  <input type="text" id="email" name="email"><br><br>
-                  <label for="email">User Name</label>
-                  <input type="email" id="username" name="username"><br><br>
-                  <label for="email">Password</label>
-                  <input type="email" id="password" name="password"><br><br>
+                  <label for="name" class="form-label">First Name:</label>
+                  <input type="text" id="fname" name="fname" class="form-input"><br><br>
+                  <label for="name" class="form-label" >Last Name:</label>
+                  <input type="text" id="lname" name="lname" class="form-input"><br><br>
+                  <label for="name" class="form-label">Email</label>
+                  <input type="text" id="email" name="email" class="form-input"><br><br>
+                  <label for="email" class="form-label">User Name</label>
+                  <input type="email" id="username" name="username" class="form-input"><br><br>
+                  <label for="email" class="form-label">Password</label>
+                  <input type="email" id="password" name="password" class="form-input"><br><br>
                   
-                  <input type="submit" value="Submit">
+                  <input type="submit" value="Submit" class="form-button">
                 </form>
             
              
                 
-                <form id="loginform" class="hidden">
-                    <label for="username">Name</label>
-                    <input type="text" id="username" name="username"><br><br>
-                    <label for="password">User name</label>
-                    <input type="password" id="password" name="password"><br><br>
-                    <input type="submit" value="Submit">
+                <form id="loginform" class="hidden" action="showLoginForm() " >
+                    <label for="username" class="form-label">Name</label>
+                    <input type="text" id="username" name="username" class="form-input"><br><br>
+                    <label for="password" class="form-label">User name</label>
+                    <input type="password" id="password" name="password" class="form-input"><br><br>
+                    <input type="submit" value="Submit" class="form-button" onclick="loadMessagePage()">
                 </form>
             </div>
           </div>
@@ -67,18 +67,47 @@
 
           
     <script>
-        function showForm() {
+        function showForm() 
+        {
           var signInForm = document.getElementById("loginform");
-      var registerForm = document.getElementById("registrationForm");
-      signInForm.classList.add("hidden");
-      registerForm.classList.remove("hidden");
-   }
-        function showLoginForm() {
-          var signInForm = document.getElementById("loginform");
-      var registerForm = document.getElementById("registrationForm");
-      signInForm.classList.remove("hidden");
-      registerForm.classList.add("hidden");
+          var registerForm = document.getElementById("registrationForm");
+          signInForm.classList.add("hidden");
+          registerForm.classList.remove("hidden");
         }
+        function showLoginForm() 
+        {
+          var signInForm = document.getElementById("loginform");
+          var registerForm = document.getElementById("registrationForm");
+          signInForm.classList.remove("hidden");
+          registerForm.classList.add("hidden");
+        }
+
+        // window.onload = function() 
+        // {
+        // showLoginForm();
+        // }
+        function loadMessagePage() 
+        {
+          window.location.href = "message.html";
+        }
+      //   function validateLoginForm() 
+      //   {
+      //      var username = document.getElementById("username").value;
+      //      var password = document.getElementById("password").value;
+
+      //     if(username==="sumi" && password==="123")
+      //     {
+      //       window.location.href = "message.html";
+      //       //return true
+      //     }
+        
+      //   else {
+      //     // Display an error message and prevent the form from submitting
+      //     alert("Please enter the correct username and password.");
+      //   }
+      //     return false;
+        
+      // }
       </script>         
                 
     </body>
