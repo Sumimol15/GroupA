@@ -10,11 +10,13 @@ app = Flask(__name__,template_folder='template')
 #
 # Connect to the database
 cnxn = pyodbc.connect(
-    'Driver={SQL Server};'
-    'Server=jerin.westeurope.cloudapp.azure.com;'
+    #'Driver={ODBC Driver 18 for SQL Server};'  #FOr linux #Uncomment Based on the platforms, Thanks!
+    'Driver={SQL Server};' # For Windows #Uncomment Based on the platforms, Thanks!
+    'Server=jerin.westeurope.cloudapp.azure.com;' 
     'Database=ca1;'
     'UID=sa;'
     'PWD=RandomPassword123;'
+    'TrustServerCertificate=yes;'
 )
 
 
@@ -239,4 +241,4 @@ def message():
     return Response(json.dumps(row_dicts), mimetype='application/json')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port='8080')

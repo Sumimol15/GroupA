@@ -1,5 +1,12 @@
 pip3 install flask
-pip install flask-sqlalchemy
+//pip install flask-sqlalchemy
+sudo apt install unixodbc-dev 
 pip install pyodbc
-
+export FLASK_RUN_PORT=80 
 sqlite:///jerindatabase.database.windows.net/sqldatabase
+
+
+jerin.westeurope.cloudapp.azure.com
+
+sudo ufw disable #TO disable Firwall
+sudo ufw status 
