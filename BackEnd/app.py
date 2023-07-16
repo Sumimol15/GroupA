@@ -239,6 +239,52 @@ def message():
     # Close the cursor and database connection
     cursor.close()    
     return Response(json.dumps(row_dicts), mimetype='application/json')
+#TOGGLE READ STATUS
 
+def toggle(readStatus,sentBy,recipientId):
+    cursor = cnxn.cursor()
+    query = "UPDATE messages SET readStatus=? where sentBy=? and recipientId=?"
+    values = (readStatus.lower(), sentBy,recipientId)
+    try:
+        # Execute the INSERT statement
+        cursor.execute(query, values)
+        cnxn.commit()
+        query = "select readStatus from messages where sentBy=? and recipientId=? "
+        values = (sentBy,recipientId)
+        cursor.execute(query, values)
+        row = cursor.fetchone()
+        # Close the cursor 
+        cursor.close()
+        
+
+        # Return a success response
+        if(row):
+            response = {'message': 'Conversation status updated successfully','status':0,'readStatus':row[0]}
+        return jsonify(response), 200
+
+    except Exception as e:
+        # Handle any errors that occur during the database operation
+        # Rollback the transaction
+        cnxn.rollback()
+
+        # Close the cursor and database connection
+        cursor.close()
+        print(str(e))
+
+        # Return an error response
+        response = {'error': str(e)}
+        return jsonify(response), 500
+
+@app.route('/readConversation',  methods=['POST'])
+def readConversation():
+    user_data = request.get_json()
+    # Create a cursor object to execute SQL queries    
+    readStatus=user_data['readStatus']
+    if(type(user_data['readStatus'])==bool):
+        if(user_data['readStatus']==True):readStatus="true"
+        else:readStatus="false"   
+    return toggle(readStatus,user_data['sentBy'],user_data['recipientId'])
+
+    
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port='8080')
