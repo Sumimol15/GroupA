@@ -218,8 +218,8 @@ def message():
     if(user_data['order'].lower()=='desc'):order='desc'
     else:order='asc'
     # Execute the SELECT statement
-    query = "  select top "+str(user_data['noOfMessages'])+" * from messages where sentBy=? and recipientId=? order by messageId "+order
-    values = (user_data['sentBy'], user_data['recipientId'])
+    query = "  select top "+str(user_data['noOfMessages'])+" * from messages where ((sentBy=? and recipientId=?) or (sentBy=? and recipientId=? )) order by messageId "+order
+    values = (user_data['sentBy'], user_data['recipientId'], user_data['recipientId'],user_data['sentBy'])
     cursor.execute(query, values)
 
     # Fetch all rows from the result set
