@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
   <title>Messaging app</title>
@@ -133,9 +134,8 @@
       </ul>
     </div>
     <div class="main">
-      <div class="header" id="chatHeaderSection"></div>
-      <ul class="message-list" id="chat"></ul>
-        <!-- <img src="profile-picture.jpg" alt="Profile Picture">
+      <div class="header">
+        <img src="profile-picture.jpg" alt="Profile Picture">
         <h2>Contact Name</h2>
       </div>
       <ul class="message-list">
@@ -158,10 +158,8 @@
       <div class="message-input">
         <input type="text" placeholder="Type your message...">
         <button>Send</button>
-      </div> -->
+      </div>
     </div>
   </div>
-  <script src="{{ url_for('static', filename='messageScript.js') }}"></script> 
-
 </body>
 </html>

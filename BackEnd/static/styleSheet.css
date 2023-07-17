@@ -126,3 +126,123 @@
   height: 90%;
   width: 50%;
 }
+
+/* NEw CSS being added */
+
+/* 
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 300px;
+  background-color: #128C7E;
+  color: #fff;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.sidebar h1 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  margin-bottom: 10px;
+}
+
+.sidebar li a {
+  text-decoration: none;
+  color: #fff;
+  display: block;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.sidebar li a:hover {
+  background-color: #075E54;
+}
+
+.main {
+  flex: 1;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #F2F2F2;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.message-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.message-list li {
+  background-color: #fff;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.message-list .sender {
+  font-weight: bold;
+}
+
+.message-list .time {
+  font-size: 12px;
+  color: #888;
+}
+
+.message-input {
+  display: flex;
+  margin-top: 20px;
+}
+
+.message-input input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.message-input button {
+  padding: 10px 20px;
+  background-color: #128C7E;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+} */

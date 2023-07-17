@@ -1,5 +1,5 @@
 window.onload=function() {
-  const contactsSection = document.getElementById('contacts');
+  const contactsSection = document.getElementById('listForContacts');
   var queryString = window.location.search;
   var urlParams = new URLSearchParams(queryString);
   var userId = urlParams.get('userId');
@@ -19,9 +19,9 @@ window.onload=function() {
       
       // contactsSection.appendChild(`<ul>`)
       data.forEach(element => {
-          const contactDiv = document.createElement('div');
-          contactDiv.className = 'contactsDiv';
-          contactDiv.innerHTML = `<a onClick=showMessages(${element.userId},${userId})>${element.userName}</a>`
+          const contactDiv = document.createElement('li');
+          contactDiv.className = 'listClass';
+          contactDiv.innerHTML = `<a onClick=showMessages(${element.userId},${userId})>${element.firstName}&nbsp;${element.lastName}</a>`
           contactsSection.appendChild(contactDiv);
       });
       // contactsSection.appendChild(`</ul>`)
@@ -35,9 +35,14 @@ window.onload=function() {
 
 function showMessages(friendId,sentBy){
   console.log('GOING TO MESSAGES'+friendId);
+  const chatHeader = document.getElementById('chatHeaderSection').innerHTML=`<img src="{{ url_for('static', filename='pp.jpg') }}" alt="Profile Picture"><h2>First Name&nbsp;Second Name</h2>`;
   const chatSection = document.getElementById('chat');
+  
+  empty(chatHeader);
   empty(chatSection);
-     
+  
+  // chatHeader.innerHTML(`<img src="profile-picture.jpg" alt="Profile Picture"><h2>First Name&nbsp;Second Name</h2>`);
+  
       const data = {
           "sentBy": sentBy,
           "recipientId":friendId,
@@ -58,10 +63,16 @@ function showMessages(friendId,sentBy){
         // Handle response data
         console.log(data);
         data.forEach(element => {
-          const contactDiv = document.createElement('div');
-          contactDiv.className = 'contactsDiv';
-          contactDiv.innerHTML = `${element.messageContent}`
-          chatSection.appendChild(contactDiv);
+          const listElementDiv = document.createElement('li');
+          const spanDiv = document.createElement('span');
+          spanDiv.className = 'sender';
+          spanDiv.innerHTML = `<p>${element.messageContent}</p>`;
+          listElementDiv.append(spanDiv);
+          const timeSpanDiv = document.createElement('span');
+          timeSpanDiv.className = 'time';
+          timeSpanDiv.innerHTML = `${element.messageCreationTime}`;
+          listElementDiv.append(timeSpanDiv);
+          chatSection.appendChild(listElementDiv);
       });
       })
       .catch(error => {
