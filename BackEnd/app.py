@@ -24,6 +24,10 @@ cnxn = pyodbc.connect(
 def home():
     return render_template('index.html')
 
+@app.route('/message.html')
+def messageHtml():
+    return render_template('message.html')
+
 #GET ALL USERS
 @app.route('/getAllUsers')
 def getAllUsers():    
@@ -134,7 +138,7 @@ def login():
     # Create a cursor object to execute SQL queries
     cursor = cnxn.cursor()
 
-    query = "SELECT password FROM users WHERE userName=?"
+    query = "SELECT password,userId FROM users WHERE userName=?"
     values = (user_data['userName'])
 
     try:
@@ -144,7 +148,7 @@ def login():
         if row:
             print(row[0])
             if(row[0] == user_data['password']):
-                response = {'message': 'Successfully Logged in','status':0}
+                response = {'message': 'Successfully Logged in','status':0,'userId':row[1]}
             else:
                 response = {'message': 'Login failed','status':1}
         else:

@@ -61,6 +61,7 @@ document.getElementById('registrationForm').addEventListener('submit', function(
       console.log(data);
       if(data.status==0){
         console.log('LOGIN SUCCESS');
+        window.location.href="message.html?userId="+data.userId;
       }else{
         console.log('LOGIN FAILED');
       }
