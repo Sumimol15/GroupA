@@ -66,6 +66,7 @@ document.getElementById('registrationForm').addEventListener('submit', function(
         console.log('LOGIN SUCCESS');
         window.location.href="message.html?userId="+data.userId;
       }else{
+        document.getElementById("message-display-span").innerHTML=`<h3>Login Failed!</h3>`;
         console.log('LOGIN FAILED');
       }
     })
@@ -81,6 +82,7 @@ document.getElementById('registrationForm').addEventListener('submit', function(
           var registerForm = document.getElementById("registrationForm");
           signInForm.classList.add("hidden");
           registerForm.classList.remove("hidden");
+          document.getElementById("message-display-span").innerHTML=``;
         }
         function showLoginForm() 
         {
@@ -88,5 +90,6 @@ document.getElementById('registrationForm').addEventListener('submit', function(
           var registerForm = document.getElementById("registrationForm");
           signInForm.classList.remove("hidden");
           registerForm.classList.add("hidden");
+          document.getElementById("message-display-span").innerHTML=``;
         }
   

@@ -1,4 +1,6 @@
 function displayWelcomeName(friendId,callback){
+  setTimeout(function() {
+  }, 2000);
   fetch('/userDetails?userId='+friendId,{
     method: 'GET',
     headers: {
@@ -15,6 +17,8 @@ function displayWelcomeName(friendId,callback){
   .catch(error => {
     // Handle any errors
     console.error('Error:', error);
+   
+    // document.getElementById("welcome").innerHTML=`<p>Welcome USER</p>`;
   })
 }
 
@@ -26,6 +30,7 @@ window.onload=function() {
   var userId = urlParams.get('userId');
   console.log(userId);
   displayWelcomeName(userId);
+  
   const jsonData= {"userId":userId}
   fetch('/getMyFriends', {
       method: 'POST',
