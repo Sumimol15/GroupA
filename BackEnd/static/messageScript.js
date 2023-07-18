@@ -21,7 +21,7 @@ window.onload=function() {
       data.forEach(element => {
           const contactDiv = document.createElement('li');
           contactDiv.className = 'listClass';
-          contactDiv.innerHTML = `<a onClick=showMessages(${element.userId},${userId})>
+          contactDiv.innerHTML = `<a onClick=showChatPage(${element.userId},${userId})>
           ${element.firstName}&nbsp;${element.lastName}</a>`
           contactsSection.appendChild(contactDiv);
       });
@@ -34,13 +34,43 @@ window.onload=function() {
 };
 
 
+function displayContactNames(friendId,callback){
+  fetch('/userDetails?userId='+friendId,{
+    method: 'GET',
+    headers: {
+      
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    // Handle response data
+    console.log(data);
+    const chatHeader = document.getElementById('chatHeaderSection').innerHTML=`<img src={{ url_for('static', filename='pp.jpg') }} alt="Profile Picture"><h2>${data.firstName}&nbsp;${data.lastName}</h2>`;
+    // empty(chatHeader);
+    callback();
+  })
+  .catch(error => {
+    // Handle any errors
+    console.error('Error:', error);
+  });
+  
+}
+function showChatPage(friendId,sentBy){
+  displayContactNames(friendId,function(){
+    console.log('THIS IS EXECUTED');
+    showMessages(friendId,sentBy);
+  });
+  
+}
 function showMessages(friendId,sentBy){
   console.log('GOING TO MESSAGES'+friendId);
-  var firstName='First Name';
-  const chatHeader = document.getElementById('chatHeaderSection').innerHTML=`<img src={{ url_for('static', filename='pp.jpg') }} alt="Profile Picture"><h2>${firstName}&nbsp;</h2>`;
+  
+  
+
+  // var firstName='First Name';
   const chatSection = document.getElementById('chat');
   
-  empty(chatHeader);
+  
   empty(chatSection);
   
   // chatHeader.innerHTML(`<img src="profile-picture.jpg" alt="Profile Picture"><h2>First Name&nbsp;Second Name</h2>`);
