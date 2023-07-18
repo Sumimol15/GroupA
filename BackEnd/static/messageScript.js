@@ -21,7 +21,8 @@ window.onload=function() {
       data.forEach(element => {
           const contactDiv = document.createElement('li');
           contactDiv.className = 'listClass';
-          contactDiv.innerHTML = `<a onClick=showMessages(${element.userId},${userId})>${element.firstName}&nbsp;${element.lastName}</a>`
+          contactDiv.innerHTML = `<a onClick=showMessages(${element.userId},${userId})>
+          ${element.firstName}&nbsp;${element.lastName}</a>`
           contactsSection.appendChild(contactDiv);
       });
       // contactsSection.appendChild(`</ul>`)
@@ -35,7 +36,8 @@ window.onload=function() {
 
 function showMessages(friendId,sentBy){
   console.log('GOING TO MESSAGES'+friendId);
-  const chatHeader = document.getElementById('chatHeaderSection').innerHTML=`<img src="{{ url_for('static', filename='pp.jpg') }}" alt="Profile Picture"><h2>First Name&nbsp;Second Name</h2>`;
+  var firstName='First Name';
+  const chatHeader = document.getElementById('chatHeaderSection').innerHTML=`<img src={{ url_for('static', filename='pp.jpg') }} alt="Profile Picture"><h2>${firstName}&nbsp;</h2>`;
   const chatSection = document.getElementById('chat');
   
   empty(chatHeader);
@@ -74,6 +76,8 @@ function showMessages(friendId,sentBy){
           listElementDiv.append(timeSpanDiv);
           chatSection.appendChild(listElementDiv);
       });
+      document.getElementById('message-input').innerHTML=`<input type="text" placeholder="Type your message..." id="message-input-value">
+      <button type="submit" onClick=sendMessage(${sentBy},${friendId})>Send</button>`;
       })
       .catch(error => {
         // Handle any errors
@@ -81,7 +85,32 @@ function showMessages(friendId,sentBy){
       });
     
 }
+function sendMessage(sentBy,recipientId){
+  const data = {
+    "sentBy": sentBy,
+    "recipientId":recipientId,
+    "message":document.getElementById("message-input-value").value
+};
 
+
+fetch('/createMessage', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(data)
+})
+.then(response => response.json())
+.then(data => {
+  // Handle response data
+  console.log(data);
+  showMessages(recipientId,sentBy);
+})
+.catch(error => {
+  // Handle any errors
+  console.error('Error:', error);
+});
+}
 function empty(element) {
   while(element.firstElementChild) {
      element.firstElementChild.remove();
