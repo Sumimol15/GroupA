@@ -96,6 +96,10 @@ function showMessages(friendId,sentBy){
         console.log(data);
         data.forEach(element => {
           const listElementDiv = document.createElement('li');
+          if(element.sentBy==sentBy){
+            console.log('This message is sending by the logged in user');
+            listElementDiv.className='chat-display-left';
+          }
           const spanDiv = document.createElement('span');
           spanDiv.className = 'sender';
           spanDiv.innerHTML = `<p>${element.messageContent}</p>`;
