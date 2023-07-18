@@ -97,7 +97,8 @@
     }
 
     .message-input {
-      display: flex;
+        display:flex;
+        position:absolute;
       margin-top: 20px;
     }
 
@@ -159,6 +160,10 @@
         <input type="text" placeholder="Type your message...">
         <button>Send</button>
       </div> -->
+      <div class="message-input" id="message-input">
+        <!-- <input type="text" placeholder="Type your message...">
+        <button>Send</button> -->
+      </div>
     </div>
   </div>
   <script src="{{ url_for('static', filename='messageScript.js') }}"></script> 
