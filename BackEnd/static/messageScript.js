@@ -1,26 +1,26 @@
-function displayWelcomeName(friendId,callback){
-  setTimeout(function() {
-  }, 2000);
-  fetch('/userDetails?userId='+friendId,{
-    method: 'GET',
-    headers: {
+// function displayWelcomeName(friendId,callback){
+//   setTimeout(function() {
+//   }, 2000);
+//   fetch('/userDetails?userId='+friendId,{
+//     method: 'GET',
+//     headers: {
       
-    }
-  })
-  .then(response => response.json())
-  .then(data => {
-    // Handle response data
-    console.log(data);
-    document.getElementById("welcome").innerHTML=`<p>Welcome ${data.firstName}</p>`;
-    callback();
-  })
-  .catch(error => {
-    // Handle any errors
-    console.error('Error:', error);
+//     }
+//   })
+//   .then(response => response.json())
+//   .then(data => {
+//     // Handle response data
+//     console.log(data);
    
-    // document.getElementById("welcome").innerHTML=`<p>Welcome USER</p>`;
-  })
-}
+//     callback();
+//   })
+//   .catch(error => {
+//     // Handle any errors
+//     console.error('Error:', error);
+   
+//     // document.getElementById("welcome").innerHTML=`<p>Welcome USER</p>`;
+//   })
+// }
 
 window.onload=function() {
   const contactsSection = document.getElementById('listForContacts');
@@ -28,9 +28,9 @@ window.onload=function() {
   var queryString = window.location.search;
   var urlParams = new URLSearchParams(queryString);
   var userId = urlParams.get('userId');
+  var firstName = urlParams.get('firstName');
   console.log(userId);
-  displayWelcomeName(userId);
-  
+  document.getElementById("welcome").innerHTML=`<p>Welcome ${firstName}</p>`;
   const jsonData= {"userId":userId}
   fetch('/getMyFriends', {
       method: 'POST',

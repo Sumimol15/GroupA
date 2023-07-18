@@ -138,7 +138,7 @@ def login():
     # Create a cursor object to execute SQL queries
     cursor = cnxn.cursor()
 
-    query = "SELECT password,userId FROM users WHERE userName=?"
+    query = "SELECT password,userId,firstName FROM users WHERE userName=?"
     values = (user_data['userName'])
 
     try:
@@ -148,7 +148,7 @@ def login():
         if row:
             print(row[0])
             if(row[0] == user_data['password']):
-                response = {'message': 'Successfully Logged in','status':0,'userId':row[1]}
+                response = {'message': 'Successfully Logged in','status':0,'userId':row[1],'firstName':row[2]}
             else:
                 response = {'message': 'Login failed','status':1}
         else:
