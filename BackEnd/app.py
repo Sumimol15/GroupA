@@ -175,6 +175,27 @@ def login():
         return jsonify(response), 500
 
 
+#FETCH USER DETAILS
+@app.route('/userDetails',  methods=['GET'])
+def userDetails():
+    userId = request.args['userId']
+    cursor1 = cnxn.cursor()    
+    query = "  select userId,userName,firstName,lastName from users where userId="+userId    
+    cursor1.execute(query)
+    row = cursor1.fetchone()
+    column_names = [column[0] for column in cursor1.description]
+    cursor1.close()    
+
+      
+    print(row)
+    row_dict = dict(zip(column_names, row))        
+   
+
+    # Close the cursor and database connection
+    return Response(json.dumps(row_dict), mimetype='application/json')
+
+
+
 #API FOR MESSAGE CREATION
 @app.route('/createMessage',  methods=['POST'])
 def createMessage():
@@ -214,6 +235,8 @@ def createMessage():
         # Return an error response
         response = {'error': str(e)}
         return jsonify(response), 500
+    
+
 @app.route('/getMessages',methods=['POST'])
 def message():
     user_data = request.get_json()
@@ -243,8 +266,9 @@ def message():
     # Close the cursor and database connection
     cursor.close()    
     return Response(json.dumps(row_dicts), mimetype='application/json')
-#TOGGLE READ STATUS
 
+
+#TOGGLE READ STATUS
 def toggle(readStatus,sentBy,recipientId):
     cursor = cnxn.cursor()
     query = "UPDATE messages SET readStatus=? where sentBy=? and recipientId=?"
