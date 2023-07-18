@@ -7,7 +7,33 @@
       margin: 0;
       padding: 0;
     }
+    .navbar {
+      background-color: #128C7E;
+      color: #fff;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
+    .navbar h1 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .navbar .welcome-message {
+      margin-right: 10px;
+    }
+
+    .navbar .logout-button {
+      padding: 8px 15px;
+      background-color: #075E54;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
     .container {
       display: flex;
       height: 100vh;
@@ -124,9 +150,14 @@
   </style>
 </head>
 <body>
+    <div class="navbar">
+        <h1>WhatsApp Web</h1>
+        <span class="welcome-message" id="welcome"></span>
+        <button class="logout-button">Logout</button>
+      </div>
   <div class="container">
     <div class="sidebar">
-      <h1>WhatsApp Web</h1>
+      <!-- <h1>WhatsApp Web</h1> -->
       <ul id="listForContacts">
         <!-- <li><a href="#">Contact 1</a></li>
         <li><a href="#">Contact 2</a></li>

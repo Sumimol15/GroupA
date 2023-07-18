@@ -1,9 +1,31 @@
+function displayWelcomeName(friendId,callback){
+  fetch('/userDetails?userId='+friendId,{
+    method: 'GET',
+    headers: {
+      
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    // Handle response data
+    console.log(data);
+    document.getElementById("welcome").innerHTML=`<p>Welcome ${data.firstName}</p>`;
+    callback();
+  })
+  .catch(error => {
+    // Handle any errors
+    console.error('Error:', error);
+  })
+}
+
 window.onload=function() {
   const contactsSection = document.getElementById('listForContacts');
+  
   var queryString = window.location.search;
   var urlParams = new URLSearchParams(queryString);
   var userId = urlParams.get('userId');
   console.log(userId);
+  displayWelcomeName(userId);
   const jsonData= {"userId":userId}
   fetch('/getMyFriends', {
       method: 'POST',
@@ -150,3 +172,8 @@ function empty(element) {
      element.firstElementChild.remove();
   }
 }
+
+
+document.querySelector('.logout-button').addEventListener('click', function() {
+  window.location.href="/";
+});
