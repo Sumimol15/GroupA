@@ -313,6 +313,39 @@ def readConversation():
         else:readStatus="false"   
     return toggle(readStatus,user_data['sentBy'],user_data['recipientId'])
 
+@app.route('/updateMessage',  methods=['POST'])
+def updateMessage():
+    user_data = request.get_json()
+    
+    cursor = cnxn.cursor()
+
+    query = "UPDATE messages set messageContent=? where messageId=?"
+    values = (user_data['message'], user_data['messageId'])
+
+    try:
+        # Execute the INSERT statement
+        cursor.execute(query, values)
+        cnxn.commit()
+        
+        cursor.close()
+        
+
+        # Return a success response
+        response = {'message': 'Message updated successfully','messageId':user_data['messageId'],'status':0}
+        return jsonify(response), 202
+
+    except Exception as e:
+        # Handle any errors that occur during the database operation
+        # Rollback the transaction
+        cnxn.rollback()
+
+        # Close the cursor and database connection
+        cursor.close()
+        
+
+        # Return an error response
+        response = {'error': str(e),'status':1}
+        return jsonify(response), 500
     
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port='8080')
