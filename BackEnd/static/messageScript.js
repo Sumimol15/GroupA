@@ -179,6 +179,37 @@ function empty(element) {
 }
 
 
+
 document.querySelector('.logout-button').addEventListener('click', function() {
   window.location.href="/";
 });
+
+
+function searchContacts() {
+  const searchInput = document.querySelector('#searchInput').value;
+  const contactList = document.querySelector('#listForContacts');
+  contactList.innerHTML = '';
+
+  fetch('/getAllUsers') // Replace 'backend-url' with the actual backend API URL
+    .then(response => response.json())
+    .then(data => {
+      const filteredContacts = data.filter(contact => contact.firstName.toLowerCase().includes(searchInput));
+      filteredContacts.forEach(contact => {
+        const listItem = document.createElement('li');
+        listItem.className="listClass";
+        const link = document.createElement('a');
+        link.href = '#';
+        link.textContent = contact.firstName+" "+contact.lastName;
+        listItem.appendChild(link);
+        contactList.appendChild(listItem);
+
+        link.addEventListener('click', function() {
+          showChatPage(contact.userId,new URLSearchParams(window.location.search).get('userId'));
+           // Replace 'contact.id' with the actual contact ID
+        });
+      });
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
