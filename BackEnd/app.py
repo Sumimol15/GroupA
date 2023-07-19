@@ -346,6 +346,39 @@ def updateMessage():
         # Return an error response
         response = {'error': str(e),'status':1}
         return jsonify(response), 500
+@app.route('/deleteMessage',  methods=['POST'])
+def deleteMessage():
+    user_data = request.get_json()
+    
+    cursor = cnxn.cursor()
+
+    query = "DELETE from messages where messageId=?"
+    values = (user_data['messageId'])
+
+    try:
+        # Execute the INSERT statement
+        cursor.execute(query, values)
+        cnxn.commit()
+        
+        cursor.close()
+        
+
+        # Return a success response
+        response = {'message': 'Message deleted successfully','status':0}
+        return jsonify(response), 202
+
+    except Exception as e:
+        # Handle any errors that occur during the database operation
+        # Rollback the transaction
+        cnxn.rollback()
+
+        # Close the cursor and database connection
+        cursor.close()
+        
+
+        # Return an error response
+        response = {'error': str(e),'status':1}
+        return jsonify(response), 500
     
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port='8080')
