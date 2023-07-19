@@ -130,16 +130,32 @@ function showMessages(friendId,sentBy){
           if(element.sentBy==sentBy){
             console.log('This message is sending by the logged in user');
             listElementDiv.className='chat-display-left';
+            const editIcon = document.createElement('span');
+            editIcon.className='edit-icon';
+            editIcon.innerHTML=`<p>edit</p>`;
+            
+            editIcon.addEventListener('click', function() {
+              const editedMessage = prompt('Edit the message:', element.messageContent);
+              if (editedMessage !== null && editedMessage !== '') {
+                // Make a PUT request to the backend API to update the message content
+                const updatedMessage = { messageId: element.messageId, message: editedMessage };
+                updateMessage(updatedMessage,friendId,sentBy);
+                
+              }});
+            listElementDiv.append(editIcon);
           }
           const spanDiv = document.createElement('span');
           spanDiv.className = 'sender';
           spanDiv.innerHTML = `<p>${element.messageContent}</p>`;
           listElementDiv.append(spanDiv);
+          
           const timeSpanDiv = document.createElement('span');
           timeSpanDiv.className = 'time';
           timeSpanDiv.innerHTML = `${element.messageCreationTime}`;
+          
           listElementDiv.append(timeSpanDiv);
           chatSection.appendChild(listElementDiv);
+          
       });
       document.getElementById('message-input').innerHTML=`<input type="text" placeholder="Type your message..." id="message-input-value">
       <button type="submit" onClick=sendMessage(${sentBy},${friendId})>Send</button>`;
@@ -149,6 +165,25 @@ function showMessages(friendId,sentBy){
         console.error('Error:', error);
       });
     
+}
+function updateMessage(message,friendId,sentBy) {
+  // Implement the logic to update the message in the backend using the fetch API
+  fetch('/updateMessage', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(message)
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Message updated:', data);
+      // Assuming the backend returns the updated message data, you can update the UI accordingly.
+      showChatPage(friendId,sentBy);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
 }
 function sendMessage(sentBy,recipientId){
   const data = {
