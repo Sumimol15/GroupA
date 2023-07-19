@@ -143,6 +143,20 @@ function showMessages(friendId,sentBy){
                 
               }});
             listElementDiv.append(editIcon);
+            //
+            const deleteIcon = document.createElement('span');
+            deleteIcon.className='edit-icon';
+            deleteIcon.innerHTML=`<p>delete</p>`;
+            
+            deleteIcon.addEventListener('click', function() {
+              let confirmValue = confirm('(This action cannot be undo) Are you sure to delete?');
+              if (confirmValue) {
+                // Make a PUT request to the backend API to update the message content
+                const json = { messageId: element.messageId };
+                deleteMessage(json,friendId,sentBy);
+                
+              }});
+            listElementDiv.append(deleteIcon);
           }
           const spanDiv = document.createElement('span');
           spanDiv.className = 'sender';
@@ -178,6 +192,25 @@ function updateMessage(message,friendId,sentBy) {
     .then(response => response.json())
     .then(data => {
       console.log('Message updated:', data);
+      // Assuming the backend returns the updated message data, you can update the UI accordingly.
+      showChatPage(friendId,sentBy);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+function deleteMessage(message,friendId,sentBy) {
+  // Implement the logic to update the message in the backend using the fetch API
+  fetch('/deleteMessage', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(message)
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Message deleted:', data);
       // Assuming the backend returns the updated message data, you can update the UI accordingly.
       showChatPage(friendId,sentBy);
     })
