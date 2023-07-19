@@ -28,6 +28,13 @@ document.getElementById('registrationForm').addEventListener('submit', function(
     .then(data => {
       // Handle response data
       console.log(data);
+      if(data.status==0){
+        document.getElementById("message-display-span").innerHTML=`<h3>User has been registered successfully!</h3>`;
+      }else if(data.status==2){
+        document.getElementById("message-display-span").innerHTML=`<h3>User already exist!</h3>`;
+      }else{
+        document.getElementById("message-display-span").innerHTML=`<h3>User registration failed!</h3>`;
+      }
     })
     .catch(error => {
       // Handle any errors

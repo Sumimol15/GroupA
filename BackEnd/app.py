@@ -97,7 +97,7 @@ def registerUser():
     # Create a cursor object to execute SQL queries
     print('chekcOne')
     if(checkForUserExist(user_data['emailId'])):
-        response = {'message': 'User already exists'}
+        response = {'message': 'User already exists','status':2}
         return jsonify(response), 500
     cursor = cnxn.cursor()
 
@@ -129,7 +129,7 @@ def registerUser():
         
 
         # Return an error response
-        response = {'error': str(e)}
+        response = {'error': str(e),'status':1}
         return jsonify(response), 500
 #Login Logout
 @app.route('/login',  methods=['POST'])
