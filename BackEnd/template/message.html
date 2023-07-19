@@ -46,7 +46,33 @@
       padding: 20px;
       box-sizing: border-box;
     }
+    .sidebar h2 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
 
+    .sidebar .search-bar {
+      margin-bottom: 20px;
+    }
+
+    .sidebar .search-bar input[type="text"] {
+      padding: 5px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .sidebar .search-bar button {
+      padding: 5px 10px;
+      background-color: #075E54;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      margin-left: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
     .sidebar h1 {
       margin-top: 0;
       margin-bottom: 20px;
@@ -158,6 +184,10 @@
   <div class="container">
     <div class="sidebar">
       <!-- <h1>WhatsApp Web</h1> -->
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search contacts...">
+        <button onclick="searchContacts()" id="searchButton">Search</button>
+      </div>
       <ul id="listForContacts">
         <!-- <li><a href="#">Contact 1</a></li>
         <li><a href="#">Contact 2</a></li>
