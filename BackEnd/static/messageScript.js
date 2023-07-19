@@ -23,6 +23,10 @@
 // }
 
 window.onload=function() {
+  initialLoading();
+};
+
+function initialLoading(){
   const contactsSection = document.getElementById('listForContacts');
   
   var queryString = window.location.search;
@@ -58,7 +62,7 @@ window.onload=function() {
       // Handle any errors
       console.error('Error:', error);
     });
-};
+}
 
 
 function displayContactNames(friendId,callback){
@@ -188,9 +192,10 @@ document.querySelector('.logout-button').addEventListener('click', function() {
 function searchContacts() {
   const searchInput = document.querySelector('#searchInput').value;
   const contactList = document.querySelector('#listForContacts');
-  contactList.innerHTML = '';
-
-  fetch('/getAllUsers') // Replace 'backend-url' with the actual backend API URL
+  empty(contactList);
+  // .innerHTML = '';
+  if(searchInput){
+    fetch('/getAllUsers') // Replace 'backend-url' with the actual backend API URL
     .then(response => response.json())
     .then(data => {
       const filteredContacts = data.filter(contact => contact.firstName.toLowerCase().includes(searchInput));
@@ -212,4 +217,8 @@ function searchContacts() {
     .catch(error => {
       console.error('Error:', error);
     });
+  }else{
+    initialLoading();
+  }
+  
 }
