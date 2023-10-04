@@ -15,7 +15,7 @@ cnxn = pyodbc.connect(
     'Server=jerin.westeurope.cloudapp.azure.com;' 
     'Database=ca1;'
     'UID=sa;'
-    'PWD=RandomPassword123;'
+    'PWD=;'
     'TrustServerCertificate=yes;'
 )
 
